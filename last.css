@@ -26,6 +26,7 @@ body {
     background-color: var(--to-day);
     height: 100vh;
     line-height: 1.75;
+    width: 100%;
 }
 
 header {
@@ -47,6 +48,7 @@ header {
 main {
     height: 100%;
     padding-top: 16px;
+    overflow-y: auto;
 }
 
 .overlay {
