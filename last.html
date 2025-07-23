@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlphaGPT</title>
+    <link rel="stylesheet" href="last.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="image/img/genzify pic.jpg">
+            <span>AlphaGPT</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="overlay">
+            <div class="ict-me">
+                Hello! I'm ZalphaGPT 👋, What can i do for you today?😊
+            </div>
+            
+    </main>
+
+    <footer>
+        <form id="chat_form">
+            <div class="chatfd">
+                <textarea id="chat_box" placeholder="Type a message..."></textarea>
+                <button class="btn" disabled>
+                    <img src="image/img/img.icons8.png" width="24" height="24">
+                </button>
+            </div>
+        </form>
+    </footer>
+    <script>
+        const chatform = document.querySelector("#chat_form");
+        const overlay = document.querySelector(".overlay");
+        const submitbutton = document.querySelector(".btn");
+        const chatBox = document.querySelector("#chat_box");
+
+        function enableOrDisablebtn() {
+            const prompt = chatBox.value;
+            if (prompt != "") {
+                submitbutton.disabled = false;
+            }
+            else {
+                submitbutton.disabled = true;
+            }
+        }
+
+        function presentUSER(prompt) {
+            const container = document.createElement("div");
+            container.classList.add("user");
+            container.textContent = prompt;
+
+            overlay.appendChild(container);
+        }
+
+        function presentAI(response) {
+            const AIResponseList = document.getElementsByClassName("ict-me");
+            const aiResContainer = AIResponseList[AIResponseList.length - 1];
+
+            aiResContainer.innerHTML = "";
+            aiResContainer.innerHTML = response;
+        }        
+        function commenceLoading() {
+            const container = document.createElement("div");
+            // add ict to container
+            container.classList.add("ict-me");
+
+
+            const loadingcontainer = document.createElement("div");
+            loadingcontainer.classList.add("loading");
+
+            const span1 = document.createElement("span");
+            const span2 = document.createElement("span");
+            const span3 = document.createElement("span");
+
+            loadingcontainer.appendChild(span1);
+            loadingcontainer.appendChild(span2);
+            loadingcontainer.appendChild(span3);
+
+            container.appendChild(loadingcontainer);
+
+            overlay.appendChild(container);
+        }
+
+        function handleSubmit(event) {
+                event.preventDefault();
+                const prompt = chatBox.value;
+
+                if (prompt != "") {
+                chatBox.value = "";
+
+                presentUSER(prompt);
+                commenceLoading();
+
+                // fetch API
+                const formData = new FormData();
+                    formData.append("prompt", prompt);
+
+                const API_URL = "https://zalphagpt-api.vercel.app/api";
+
+                const response = fetch(API_URL, {
+                        method: "POST",
+                        body: formData,
+                    });
+
+                    // The '.then' method is called when there is a response from the server.
+                    response.then(async (res) => {
+                        if (res.ok == true) {
+                            console.log("successful");
+                            const result = await res.text();
+
+                            presentAI(result);
+                        } else {
+                            enableOrDisableBtn();
+                            console.log("Error!");
+                        }
+                    });
+
+                    // The '.catch' method is called when there is no response from the server. For instance when a server error occurs.
+                    response.catch((error) => {
+                        console.log("Server error!");
+                    });
+            }
+        }
+
+        chatform.addEventListener("submit", handleSubmit);
+        chatBox.addEventListener("input", enableOrDisablebtn);
+    </script>
+
+
+</body>
+
+</html>

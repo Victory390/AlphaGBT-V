@@ -1,0 +1,158 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --to-day: #060606;
+    --mo-ney: rgb(236, 88, 0);
+    --bo-ok: #141f38;
+    --she: #e1e7ef;
+    --she-ep: #a4aebd;
+    --secondary: #7c8595;
+    --needle: #1d283a;
+
+    --stroke-color: #4e4e4d;
+
+    --secondarry: #fdd58c;
+    --disabled-btn: rgba(236, 88, 0, 0.6);
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    color: var(--she);
+    background-color: var(--to-day);
+    height: 100vh;
+    line-height: 1.75;
+}
+
+header {
+    border-bottom: 1.5px solid var(--stroke-color);
+    padding: 16px;
+}
+
+.logo img {
+    width: 24px;
+    height: 24px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+main {
+    height: 100%;
+    padding-top: 16px;
+}
+
+.overlay {
+    max-width: 768px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding-bottom: 25vh;
+}
+
+.ict-me {
+    background-color: var(--secondarry);
+    color: var(--to-day);
+    padding: 16px;
+    border-radius: 12px;
+    width: fit-content;
+    
+}
+
+.user {
+    width: fit-content;
+    max-width: 100%;
+    background-color: var(--mo-ney);
+    border-radius: 12px;
+    color: var(--bo-ok);
+    padding: 8px 16px;
+    margin-left: auto;
+}
+
+footer {
+    border-top: 1.5px solid var(--stroke-color);
+    padding: 16px;
+}
+
+form {
+    max-width: 768px;
+    margin-inline: auto;
+}
+
+.chatfd {
+    background-color: var(--to-day);
+    border-radius: 12px;
+    border: 1px solid var(--stroke-color);
+    position: relative;
+}
+
+#chat_box {
+    resize: none;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    min-height: 70px;
+    color: var(--she);
+    padding: 10px;
+}
+
+.btn {
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: var(--mo-ney);
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+}
+.btn:disabled {
+    background-color: var(--disabled-btn);
+    color: var(--to-day);
+}
+
+.loading {
+    display: flex;
+    gap: 4px;
+}
+
+.loading span {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 100vmax;
+    background-color: var(--she);
+    animation: blink 1.4s infinite;
+    
+}
+
+.loading span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loading span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0.1;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.1;
+    }
+}
