@@ -2,16 +2,16 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AlphaGPT</title>
-    <link rel="stylesheet" href="last.css">
+    <link rel="stylesheet" href="last.css" />
 </head>
 
 <body>
     <header>
         <div class="logo">
-            <img src="genzify pic.jpg">
+            <img src="genzify pic.jpg" />
             <span>AlphaGPT</span>
         </div>
     </header>
@@ -22,7 +22,7 @@
                 Hello! I'm ZalphaGPT 👋, What can i do for you today?😊
             </div>
             <div class="scrollToElement"></div>
-            </div>
+        </div>
     </main>
 
     <footer>
@@ -30,7 +30,7 @@
             <div class="chatfd">
                 <textarea id="chat_box" placeholder="Type a message..."></textarea>
                 <button class="btn" disabled>
-                    <img src="img.icons8.png" width="24" height="24">
+                    <img src="img.icons8.png" width="24" height="24" />
                 </button>
             </div>
         </form>
@@ -44,176 +44,174 @@
         const submitbutton = document.querySelector(".btn");
 
         // --- Global State Variable ---
-            // A 'flag' variable to keep track of whether the AI is currently "thinking".
-            // This prevents the user from sending multiple messages at once.
-            let started = false;
+        // A 'flag' variable to keep track of whether the AI is currently "thinking".
+        // This prevents the user from sending multiple messages at once.
+        let started = false;
 
-            // --- Function Definitions ---
+        // --- Function Definitions ---
 
-            /**
-             * Checks if there is text in the chatBox and enables or disables the submit button accordingly.
-             */
-            function disableBtn() {
-                const prompt = chatBox.value; // Get the current text from the chat box.
-                if (prompt != "") {
-                    // If the chat box is NOT empty...
-                    submitbutton.disabled = false; // ...enable the button.
-                } else {
-                    // Otherwise (if it IS empty)...
-                    submitbutton.disabled = true; // ...disable the button.
-                }
+        /**
+         * Checks if there is text in the chatBox and enables or disables the submit button accordingly.
+         */
+        function disableBtn() {
+            const prompt = chatBox.value; // Get the current text from the chat box.
+            if (prompt != "") {
+                // If the chat box is NOT empty...
+                submitbutton.disabled = false; // ...enable the button.
+            } else {
+                // Otherwise (if it IS empty)...
+                submitbutton.disabled = true; // ...disable the button.
             }
+        }
 
-            /**
-             * Creates and displays the user's message bubble on the screen.
-             * @param {string} prompt - The text the user typed.
-             */
-            function presentUSER(prompt) {
-                const container = document.createElement("div"); // Create a new <div> element in memory.
-                container.classList.add("user"); // Add the CSS class for user message styling.
-                container.textContent = prompt; // Set the text inside the div to the user's prompt.
+        /**
+         * Creates and displays the user's message bubble on the screen.
+         * @param {string} prompt - The text the user typed.
+         */
+        function presentUSER(prompt) {
+            const container = document.createElement("div"); // Create a new <div> element in memory.
+            container.classList.add("user"); // Add the CSS class for user message styling.
+            container.textContent = prompt; // Set the text inside the div to the user's prompt.
 
-                overlay.appendChild(container); // Add the new div to the main chat container.
-            }
+            overlay.insertBefore(container, scrollToElement); // Add the new div to the main chat container.
+        }
 
-            /**
-             * Finds the latest AI response bubble and replaces its content (the loader) with the final AI response.
-             * @param {string} response - The response text from the AI.
-             */
-            function presentAI(response) {
-                // Get a live list of all elements with the class 'ai_res'.
-                const AIResponseList = document.getElementsByClassName("ict-me");
-                // Get the very last element in that list, which is the one we just added with the loader.
-                const aiResContainer = AIResponseList[AIResponseList.length - 1];
+        /**
+         * Finds the latest AI response bubble and replaces its content (the loader) with the final AI response.
+         * @param {string} response - The response text from the AI.
+         */
+        function presentAI(response) {
+            // Get a live list of all elements with the class 'ict-me'.
+            const AIResponseList = document.getElementsByClassName("ict-me");
+            // Get the very last element in that list, which is the one we just added with the loader.
+            const aiResContainer = AIResponseList[AIResponseList.length - 1];
 
-                aiResContainer.innerHTML = ""; // Clear out the loading animation elements.
-                aiResContainer.innerHTML = response; // Set the content to the AI's response text.
-                started = false;
+            aiResContainer.innerHTML = ""; // Clear out the loading animation elements.
+            aiResContainer.innerHTML = response; // Set the content to the AI's response text.
+            started = false;
+        }
 
-            }
+        /**
+         * Creates and displays the loading animation bubble on the screen.
+         */
+        function commenceLoading() {
+            const container = document.createElement("div"); // Create the main container for the AI bubble.
+            container.classList.add("ict-me"); // Add the CSS class for AI message styling.
 
-            /**
-             * Creates and displays the loading animation bubble on the screen.
-             */
-            function commenceLoading() {
-                const container = document.createElement("div"); // Create the main container for the AI bubble.
-                container.classList.add("ict-me"); // Add the CSS class for AI message styling.
+            const loadingContainer = document.createElement("div"); // Create a container for the dots.
+            loadingContainer.classList.add("loading"); // Add the CSS class for the loading animation.
 
-                const loadingContainer = document.createElement("div"); // Create a container for the dots.
-                loadingContainer.classList.add("loading"); // Add the CSS class for the loading animation.
+            // Create the three individual blinking dots (spans).
+            const span1 = document.createElement("span");
+            const span2 = document.createElement("span");
+            const span3 = document.createElement("span");
 
-                // Create the three individual blinking dots (spans).
-                const span1 = document.createElement("span");
-                const span2 = document.createElement("span");
-                const span3 = document.createElement("span");
+            // Put the spans inside their container.
+            loadingContainer.appendChild(span1);
+            loadingContainer.appendChild(span2);
+            loadingContainer.appendChild(span3);
 
-                // Put the spans inside their container.
-                loadingContainer.appendChild(span1);
-                loadingContainer.appendChild(span2);
-                loadingContainer.appendChild(span3);
+            // Put the loading container inside the main AI bubble container.
+            container.appendChild(loadingContainer);
 
-                // Put the loading container inside the main AI bubble container.
-                container.appendChild(loadingContainer);
+            overlay.insertBefore(container, scrollToElement);// Add the whole bubble to the page.
+        }
 
-                overlay.appendChild(container); // Add the whole bubble to the page.
-            }
+        /**
+         * Finds the latest AI response bubble and replaces its content with an error message.
+         */
+        function presentError() {
+            const AIResponseList = document.getElementsByClassName("ict-me");
+            const currentRes = AIResponseList[AIResponseList.length - 1]; // Get the last AI bubble (which has the loader).
 
-            /**
-             * Finds the latest AI response bubble and replaces its content with an error message.
-             */
-            function presentError() {
-                const AIResponseList = document.getElementsByClassName("ict-me");
-                const currentRes = AIResponseList[AIResponseList.length - 1]; // Get the last AI bubble (which has the loader).
+            // Set the content to be a span with the 'error' class for styling.
+            currentRes.innerHTML = '<span class="error">Something went wrong!</span>';
 
-                // Set the content to be a span with the 'error' class for styling.
-                currentRes.innerHTML = `<span class="error">Something went wrong!</span>`;
+            // Reset the state to allow the user to try again.
+            started = false;
+            disableBtn();
+        }
 
-                // Reset the state to allow the user to try again.
-                started = false;
-                disableBtn();
-            }
+        /**
+         * The main function that handles the entire process of submitting a prompt.
+         */
+        function handleSubmit() {
+            // Get the user's text from the chat box and remove any leading/trailing whitespace.
+            const value = chatBox.value.trim();
 
-            /**
-             * The main function that handles the entire process of submitting a prompt.
-             */
-            function handleSubmit() {
-                // Get the user's text from the chat box and remove any leading/trailing whitespace.
-                const value = chatBox.value.trim();
+            // Only proceed if there is text AND we are not already waiting for a response.
+            if (value && !started) {
+                started = true; // Set the 'started' flag to true to block new submissions.
+                chatBox.value = ""; // Clear the input box.
+                submitbutton.disabled = true; // Immediately disable the button.
 
-                // Only proceed if there is text AND we are not already waiting for a response.
-                if (value && !started) {
-                    started = true; // Set the 'started' flag to true to block new submissions.
-                    chatBox.value = ""; // Clear the input box.
-                    submitbutton.disabled = true; // Immediately disable the button.
+                presentUSER(value); // Display the user's message on the screen.
+                commenceLoading(); // Display the loading animation.
 
-                    presentUSER(value); // Display the user's message on the screen.
-                    commenceLoading(); // Display the loading animation.
+                // Automatically scroll down to show the new messages.
+                scrollToElement.scrollIntoView({ behavior: "smooth" });
 
-                    // Automatically scroll down to show the new messages.
-                    scrollToElement.scrollIntoView({ behavior: "smooth" });
+                // --- Prepare and Send Data to the AI ---
+                const formData = new FormData(); // Create a new FormData object to hold our data.
+                formData.append("prompt", value); // Add our prompt to the FormData with the key "prompt".
 
-                    // --- Prepare and Send Data to the AI ---
-                    const formData = new FormData(); // Create a new FormData object to hold our data.
-                    formData.append("prompt", value); // Add our prompt to the FormData with the key "prompt".
+                const API_URL = "https://zalphagpt-api.vercel.app/api"; // The URL of our AI server.
 
-                    const API_URL = "https://zalphagpt-api.vercel.app/api"; // The URL of our AI server.
+                // Use the fetch API to send the request to the server.
+                fetch(API_URL, {
+                    method: "POST", // We are sending data, so we use the POST method.
+                    body: formData, // The data we are sending is our FormData object.
+                })
+                    .then(async (response) => {
+                        // .then() runs when the server sends back a response.
+                        if (response.ok) {
+                            // Check if the response was successful (e.g., status 200).
+                            console.log("Successful");
 
-                    // Use the fetch API to send the request to the server.
-                    fetch(API_URL, {
-                        method: "POST", // We are sending data, so we use the POST method.
-                        body: formData, // The data we are sending is our FormData object.
-                    })
-                        .then(async (response) => {
-                            // .then() runs when the server sends back a response.
-                            if (response.ok) {
-                                // Check if the response was successful (e.g., status 200).
-                                console.log("Successful");
+                            // Asynchronously get the response body as plain text.
+                            const res = await response.text();
 
-                                // Asynchronously get the response body as plain text.
-                                const res = await response.text();
-
-                                // Display the AI's response text on the screen.
-                                presentAI(res);
-                            } else {
-                                // If the response was not successful (e.g., a server error)...
-                                presentError(); // ...show an error message.
-                                started = false; // Reset the state.
-                                disableBtn(); // Update the button state.
-                                console.error("Error: ", response.status); // Log the HTTP error status.
-                            }
-                        })
-                        .catch((error) => {
-                            // .catch() runs if there was a network error (e.g., no internet).
-                            presentError(); // Show an error message.
+                            // Display the AI's response text on the screen.
+                            presentAI(res);
+                        } else {
+                            // If the response was not successful (e.g., a server error)...
+                            presentError(); // ...show an error message.
                             started = false; // Reset the state.
-                            console.error("Error during fetch:", error); // Log the actual error object.
-                        });
-                }
+                            disableBtn(); // Update the button state.
+                            console.error("Error: ", response.status); // Log the HTTP error status.
+                        }
+                    })
+                    .catch((error) => {
+                        // .catch() runs if there was a network error (e.g., no internet).
+                        presentError(); // Show an error message.
+                        started = false; // Reset the state.
+                        console.error("Error during fetch:", error); // Log the actual error object.
+                    });
+            } else {
+                console.log('value: ${ value }, started: ${ started }');
             }
+        }
 
-            // --- Event Listeners ---
-            // Listen for the 'submit' event on the form.
-            chatForm.addEventListener("submit", async (e) => {
-                e.preventDefault(); // Stop the default browser action (page reload).
-                handleSubmit(); // Call our main handler function.
-            });
+        // --- Event Listeners ---
+        // Listen for the 'submit' event on the form.
+        chatForm.addEventListener("submit", async (e) => {
+            e.preventDefault(); // Stop the default browser action (page reload).
+            handleSubmit(); // Call our main handler function.
+        });
 
-            // Listen for the 'keydown' event on the text box.
-            chatBox.addEventListener("keydown", (e) => {
-                // If the user presses "Enter" but NOT "Shift" + "Enter"...
-                if (e.key == "Enter" && !e.shiftKey) {
-                    e.preventDefault(); // ...prevent a new line from being added to the textarea...
-                    handleSubmit(); // ...and submit the form.
-                }
-            });
+        // Listen for the 'keydown' event on the text box.
+        chatBox.addEventListener("keydown", (e) => {
+            // If the user presses "Enter" but NOT "Shift" + "Enter"...
+            if (e.key == "Enter" && !e.shiftKey) {
+                e.preventDefault(); // ...prevent a new line from being added to the textarea...
+                handleSubmit(); // ...and submit the form.
+            }
+        });
 
-            // Listen for the 'input' event on the text box.
-            // This runs every time the user types or deletes something.
-            chatBox.addEventListener("input", disableBtn);
-
+        // Listen for the 'input' event on the text box.
+        // This runs every time the user types or deletes something.
+        chatBox.addEventListener("input", disableBtn);
     </script>
-
-
 </body>
 
 </html>
