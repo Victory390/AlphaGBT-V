@@ -161,6 +161,6 @@ form {
 
 @media (max-width: 768px) {
   .overlay {
-    padding-inline: 1rem;
+    padding-inline: 16px;
   }
 }
