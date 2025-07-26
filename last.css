@@ -82,6 +82,7 @@ main {
 footer {
     border-top: 1.5px solid var(--stroke-color);
     padding: 16px;
+    
 }
 
 form {
@@ -158,6 +159,7 @@ form {
         opacity: 0.1;
     }
 }
+
 @media (max-width: 768px) {
     .overlay {padding-inline: 16px;}
 }
