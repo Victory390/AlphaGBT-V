@@ -158,7 +158,6 @@ form {
         opacity: 0.1;
     }
 }
-
 @media (max-width: 768px) {
-  .overlay {padding-inline: 16px;}
+    .overlay {padding-inline: 16px;}
 }
